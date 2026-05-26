@@ -1,7 +1,7 @@
 # AjudeAgora - Plataforma de Doações
 
 ## Integrantes do Grupo
-- Tahaira Santana (RA: 202402541031)
+- Thaiara Santana (RA: 202402541031)
 
 ## Descrição do Problema Social
 O aplicativo "AjudeAgora" visa conectar pessoas que possuem surplus de alimentos, roupas ou móveis com pessoas ou instituições carentes. O problema resuelto é a carência de recursos básicos e o desperdício de itens em boas condições de uso. O app facilita a "cadeia de solidariedade" sem intermediários complexos.
