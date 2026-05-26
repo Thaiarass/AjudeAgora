@@ -1,22 +1,30 @@
-# AjudeAgora
+# AjudeAgora - Plataforma de Doações
 
-## Descrição
-Aplicativo mobile de doações que conecta quem quer doar com quem precisa receber.
+## Integrantes do Grupo
+- Tahaira Santana (RA: 202402541031)
+
+## Descrição do Problema Social
+O aplicativo "AjudeAgora" visa conectar pessoas que possuem surplus de alimentos, roupas ou móveis com pessoas ou instituições carentes. O problema resuelto é a carência de recursos básicos e o desperdício de itens em boas condições de uso. O app facilita a "cadeia de solidariedade" sem intermediários complexos.
 
 ## Tecnologias Usadas
 - React Native (Expo)
-- React Navigation (Stack)
-- AsyncStorage (Persistência de dados)
+- React Navigation (Stack Navigator)
+- AsyncStorage (Persistência de dados local)
 
 ## Funcionalidades (CRUD)
-✅ Create - Criar doação
-✅ Read - Listar doações
-✅ Update - Editar status
-✅ Delete - Excluir doação
+✅ CREATE - Criar doação
+✅ READ - Listar doações
+✅ UPDATE - Editar status (Disponível/Entregue)
+✅ DELETE - Excluir doação
 
-## Como Rodar
-1. npx create-expo-app AjudeAgora
-2. cd AjudeAgora
-3. npm install @react-navigation/native @react-navigation/stack @react-native-async-storage/async-storage react-native-safe-area-context react-native-screens react-native-gesture-handler
-4. Substituir App.js pelo código fornecido
-5. npx expo start
+## Instruções para Rodar o Projeto
+
+### Pré-requisitos
+- Node.js instalado no computador
+- Expo Go (no celular) ou emulador
+
+### Comandos no Terminal
+
+1. Criar o projeto:
+```bash
+npx create-expo-app AjudeAgora
