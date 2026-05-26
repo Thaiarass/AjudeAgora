@@ -199,13 +199,45 @@ function EditScreen({ route, navigation }) {
     <SafeAreaView style={styles.container}>
       <View style={styles.detailContainer}>
         <Text style={styles.screenTitle}>{currentItem.titulo}</Text>
-        <View style={styles.detailRow}><Text style={styles.detailLabel}>Categoria:</Text><Text style={styles.detailValue}>{ICONS[currentItem.categoria]} {currentItem.categoria}</Text></View>
-        <View style={styles.detailRow}><Text style={styles.detailLabel}>Descrição:</Text><Text style={styles.detailValue}>{currentItem.descricao || "Sem descrição."}</Text></View>
-        <View style={styles.detailRow}><Text style={styles.detailLabel}>Doador:</Text><Text style={styles.detailValue}>{currentItem.doador}</Text></View>
-        <View style={styles.detailRow}><Text style={styles.detailLabel}>Data:</Text><Text style={styles.detailValue}>{currentItem.data}</Text></View>
-        <View style={styles.detailRow}><Text style={styles.detailLabel}>Status:</Text><Text style={[styles.statusBadge, currentItem.status === 'Disponível' ? styles.statusActive : styles.statusDone, { alignSelf: 'flex-start', marginTop: 5 }]}>{currentItem.status}</Text></View>
-        <TouchableOpacity style={[styles.mainButton, { backgroundColor: currentItem.status === 'Disponível' ? '#4CAF50' : '#FF9800' }]} onPress={toggleStatus}><Text style={styles.mainButtonText}>{currentItem.status === 'Disponível' ? '✅ Marcar como Entregue' : '↩️ Tornar Disponível'}</Text></TouchableOpacity>
-        <TouchableOpacity style={[styles.mainButton, { backgroundColor: '#F44336', marginTop: 10 }]} onPress={deleteItem}><Text style={styles.mainButtonText}>🗑️ Excluir Doação</Text></TouchableOpacity>
+        <View style={styles.detailRow}>
+          <Text style={styles.detailLabel}>Categoria:</Text>
+          <Text style={styles.detailValue}>{ICONS[currentItem.categoria]} {currentItem.categoria}</Text>
+        </View>
+        <View style={styles.detailRow}>
+          <Text style={styles.detailLabel}>Descrição:</Text>
+          <Text style={styles.detailValue}>{currentItem.descricao || "Sem descrição."}</Text>
+        </View>
+        <View style={styles.detailRow}>
+          <Text style={styles.detailLabel}>Doador:</Text>
+          <Text style={styles.detailValue}>{currentItem.doador}</Text>
+        </View>
+        <View style={styles.detailRow}>
+          <Text style={styles.detailLabel}>Data:</Text>
+          <Text style={styles.detailValue}>{currentItem.data}</Text>
+        </View>
+        <View style={styles.detailRow}>
+          <Text style={styles.detailLabel}>Status:</Text>
+          <Text style={[
+            styles.statusBadge, 
+            currentItem.status === 'Disponível' ? styles.statusActive : styles.statusDone
+          ]}>
+            {currentItem.status}
+          </Text>
+        </View>
+        <TouchableOpacity 
+          style={[styles.mainButton, { backgroundColor: currentItem.status === 'Disponível' ? '#4CAF50' : '#FF9800' }]} 
+          onPress={toggleStatus}
+        >
+          <Text style={styles.mainButtonText}>
+            {currentItem.status === 'Disponível' ? '✅ Marcar como Entregue' : '↩️ Marcar como Disponível'}
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity 
+          style={[styles.mainButton, { backgroundColor: '#F44336', marginTop: 10 }]} 
+          onPress={deleteItem}
+        >
+          <Text style={styles.mainButtonText}>🗑️ Excluir Doação</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -253,7 +285,7 @@ const styles = StyleSheet.create({
   input: { backgroundColor: '#fff', borderWidth: 1, borderColor: '#ddd', borderRadius: 8, padding: 12, fontSize: 16, color: '#333' },
   textArea: { height: 100, textAlignVertical: 'top' },
   categorySelector: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 },
-  catBtn: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff', borderWidth: 1, borderColor: '#ddd', borderRadius: 8, padding: 10, marginHorizontal: 4 },
+  catBtn: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff', borderWidth: 1, borderColor: '#ddd', borderRadius: 8, padding: 10, marginHorizontal: 5 },
   catBtnActive: { backgroundColor: '#2196F3', borderColor: '#2196F3' },
   catIcon: { fontSize: 20 },
   catBtnText: { marginLeft: 5, fontSize: 14, color: '#333' },
