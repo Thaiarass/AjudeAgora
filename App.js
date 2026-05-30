@@ -15,8 +15,7 @@ import {
   ScrollView,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { NavigationContainer, useFocusEffect } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer, useFocusEffectimport { createStackNavigator } from '@react-navigation/stack';import { NavigationContainer, useFocusEffect } from '@react-navigation/native';
 
 const STORAGE_KEY = '@ajudeagora:donations';
 
