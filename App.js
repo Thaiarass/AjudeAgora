@@ -8,11 +8,7 @@ import {
   TouchableOpacity,
   FlatList,
   SafeAreaView,
-  StatusBar,
   Alert,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
 } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -22,32 +18,22 @@ import { createStackNavigator } from '@react-navigation/stack';
 const STORAGE_KEY = '@ajudeagora:donations';
 const Stack = createStackNavigator();
 
-const ICONS = {
-  Alimento: '🍚',
-  Roupa: '👕',
-  Móvel: '🪑',
-};
-
-async function getStoredDonations() {
-  try {
-    const raw = await AsyncStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : [];
-  } catch {
-    return [];
-  }
+async function getData() {
+  const raw = await AsyncStorage.getItem(STORAGE_KEY);
+  return raw ? JSON.parse(raw) : [];
 }
 
-async function saveStoredDonations(data) {
+async function saveData(data) {
   await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 }
 
 // ===== HOME =====
-function HomeScreen({ navigation }) {
-  const [donations, setDonations] = useState([]);
+function Home({ navigation }) {
+  const [data, setData] = useState([]);
 
   const load = useCallback(async () => {
-    const data = await getStoredDonations();
-    setDonations(data.reverse());
+    const d = await getData();
+    setData(d);
   }, []);
 
   useFocusEffect(
@@ -61,16 +47,15 @@ function HomeScreen({ navigation }) {
       <Text style={styles.title}>AjudeAgora</Text>
 
       <FlatList
-        data={donations}
+        data={data}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <TouchableOpacity
             style={styles.card}
             onPress={() => navigation.navigate('Edit', { item })}
           >
-            <Text style={styles.bold}>{item.titulo}</Text>
-            <Text>{ICONS[item.categoria]} {item.categoria}</Text>
-            <Text>{item.doador}</Text>
+            <Text style={styles.cardTitle}>{item.titulo}</Text>
+            <Text style={styles.cardDoador}>{item.doador}</Text>
           </TouchableOpacity>
         )}
       />
@@ -79,48 +64,48 @@ function HomeScreen({ navigation }) {
         style={styles.button}
         onPress={() => navigation.navigate('Create')}
       >
-        <Text style={styles.buttonText}>+ Nova Doação</Text>
+        <Text style={styles.buttonText}>+ Add</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
 }
 
 // ===== CREATE =====
-function CreateScreen({ navigation }) {
+function Create({ navigation }) {
   const [titulo, setTitulo] = useState('');
   const [doador, setDoador] = useState('');
 
   const salvar = async () => {
-    if (!titulo || !doador) {
-      Alert.alert("Preencha os campos");
+    if (!titulo.trim() || !doador.trim()) {
+      Alert.alert('Preencha os campos');
       return;
     }
 
-    const data = await getStoredDonations();
+    const data = await getData();
 
     data.push({
       id: Date.now().toString(),
-      titulo,
-      categoria: 'Alimento',
-      doador,
-      status: 'Disponível'
+      titulo: titulo.trim(),
+      doador: doador.trim(),
     });
 
-    await saveStoredDonations(data);
+    await saveData(data);
     navigation.goBack();
   };
 
   return (
     <SafeAreaView style={styles.container}>
+      <Text style={styles.label}>Item</Text>
       <TextInput
-        placeholder="Item"
+        placeholder="Nome do item"
         style={styles.input}
         value={titulo}
         onChangeText={setTitulo}
       />
 
+      <Text style={styles.label}>Doador</Text>
       <TextInput
-        placeholder="Doador"
+        placeholder="Seu nome"
         style={styles.input}
         value={doador}
         onChangeText={setDoador}
@@ -134,39 +119,47 @@ function CreateScreen({ navigation }) {
 }
 
 // ===== EDIT =====
-function EditScreen({ route, navigation }) {
+function Edit({ route, navigation }) {
   const { item } = route.params;
 
   const [titulo, setTitulo] = useState(item.titulo);
   const [doador, setDoador] = useState(item.doador);
 
   const atualizar = async () => {
-    const data = await getStoredDonations();
+    if (!titulo.trim() || !doador.trim()) {
+      Alert.alert('Preencha os campos');
+      return;
+    }
 
+    const data = await getData();
     const novo = data.map((i) =>
-      i.id === item.id ? { ...i, titulo, doador } : i
+      i.id === item.id
+        ? { ...i, titulo: titulo.trim(), doador: doador.trim() }
+        : i
     );
 
-    await saveStoredDonations(novo);
+    await saveData(novo);
     navigation.goBack();
   };
 
   const excluir = async () => {
-    const data = await getStoredDonations();
+    const data = await getData();
     const novo = data.filter((i) => i.id !== item.id);
 
-    await saveStoredDonations(novo);
+    await saveData(novo);
     navigation.goBack();
   };
 
   return (
     <SafeAreaView style={styles.container}>
+      <Text style={styles.label}>Item</Text>
       <TextInput
         style={styles.input}
         value={titulo}
         onChangeText={setTitulo}
       />
 
+      <Text style={styles.label}>Doador</Text>
       <TextInput
         style={styles.input}
         value={doador}
@@ -178,7 +171,7 @@ function EditScreen({ route, navigation }) {
       </TouchableOpacity>
 
       <TouchableOpacity
-        style={[styles.button, { backgroundColor: 'red' }]}
+        style={[styles.button, styles.deleteButton]}
         onPress={excluir}
       >
         <Text style={styles.buttonText}>Excluir</Text>
@@ -192,9 +185,9 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Create" component={CreateScreen} />
-        <Stack.Screen name="Edit" component={EditScreen} />
+        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Create" component={Create} />
+        <Stack.Screen name="Edit" component={Edit} />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -205,34 +198,49 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#f8f9fa'
+    backgroundColor: '#f8f9fa',
   },
   title: {
     fontSize: 24,
-    marginBottom: 15
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  label: {
+    fontWeight: 'bold',
+    marginTop: 10,
   },
   card: {
     backgroundColor: '#fff',
-    padding: 10,
+    padding: 15,
     marginBottom: 10,
-    borderRadius: 8
+    borderRadius: 8,
   },
-  bold: {
-    fontWeight: 'bold'
+  cardTitle: {
+    fontWeight: 'bold',
+  },
+  cardDoador: {
+    color: '#666',
   },
   input: {
     borderWidth: 1,
-    marginBottom: 10,
+    borderColor: '#ddd',
     padding: 10,
-    borderRadius: 5
+    marginBottom: 10,
+    borderRadius: 5,
+    backgroundColor: '#fff',
   },
   button: {
     backgroundColor: '#007bff',
-    padding: 12,
-    borderRadius: 6,
-    alignItems: 'center'
+    padding: 14,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  deleteButton: {
+    backgroundColor: '#dc3545',
   },
   buttonText: {
-    color: '#fff'
-  }
+    color: '#fff',
+    fontWeight: 'bold',
+  },
 });
