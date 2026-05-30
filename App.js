@@ -17,20 +17,17 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Dexie from 'dexie';
 
-// CONFIGURAÇÃO DO BANCO DE DADOS (DEXIE.JS - EXIGIDO PELO PROFESSOR)
 const db = new Dexie('AjudeAgoraDatabase');
 db.version(1).stores({
   donations: 'id, titulo, categoria, descricao, doador, status, data'
 });
 
-// ÍCONES
 const ICONS = {
   Alimento: '🍚',
   Roupa: '👕',
   Móvel: '🪑'
 };
 
-// TELA 1: LISTA DE DOAÇÕES
 function HomeScreen({ navigation }) {
   const [donations, setDonations] = useState([]);
 
@@ -104,7 +101,6 @@ function HomeScreen({ navigation }) {
   );
 }
 
-// TELA 2: CADASTRAR DOAÇÃO
 function CreateScreen({ navigation }) {
   const [titulo, setTitulo] = useState('');
   const [categoria, setCategoria] = useState('Alimento');
@@ -171,7 +167,6 @@ function CreateScreen({ navigation }) {
   );
 }
 
-// TELA 3: DETALHES E EDIÇÃO
 function EditScreen({ route, navigation }) {
   const { item } = route.params;
   const [currentItem, setCurrentItem] = useState(item);
@@ -245,7 +240,6 @@ function EditScreen({ route, navigation }) {
   );
 }
 
-// NAVEGAÇÃO
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -260,7 +254,6 @@ export default function App() {
   );
 }
 
-// ESTILOS VISUAIS COMPLETOS
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#f8f9fa' },
   header: { flexDirection: 'row', paddingHorizontal: 20, paddingTop: 15 },
