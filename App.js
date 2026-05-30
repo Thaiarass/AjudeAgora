@@ -1,5 +1,10 @@
 import 'react-native-gesture-handler';
-import React, { useState, useCallback } from  TextInput,import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
   TouchableOpacity,
   FlatList,
   SafeAreaView,
@@ -594,8 +599,3 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
 });
-import {
-  StyleSheet,
-  Text,
-  View,
-
