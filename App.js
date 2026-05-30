@@ -13,10 +13,10 @@ import {
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer, useFocusEffect } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const STORAGE_KEY = '@ajudeagora:donations';
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 async function getData() {
   const raw = await AsyncStorage.getItem(STORAGE_KEY);
@@ -143,11 +143,23 @@ function Edit({ route, navigation }) {
   };
 
   const excluir = async () => {
-    const data = await getData();
-    const novo = data.filter((i) => i.id !== item.id);
-
-    await saveData(novo);
-    navigation.goBack();
+    Alert.alert(
+      'Confirmar exclusão',
+      'Tem certeza que deseja excluir?',
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        {
+          text: 'Excluir',
+          style: 'destructive',
+          onPress: async () => {
+            const data = await getData();
+            const novo = data.filter((i) => i.id !== item.id);
+            await saveData(novo);
+            navigation.goBack();
+          },
+        },
+      ]
+    );
   };
 
   return (
