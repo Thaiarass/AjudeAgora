@@ -571,4 +571,4 @@ const styles = StyleSheet.create({
   deleteButton: {
     backgroundColor: '#dc3545',
   },
-  mainButtonText:
+  mainButton
