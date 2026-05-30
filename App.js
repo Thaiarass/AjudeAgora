@@ -15,7 +15,8 @@ import {
   ScrollView,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { NavigationContainer, useFocusEffectimport { createStackNavigator } from '@react-navigation/stack';import { NavigationContainer, useFocusEffect } from '@react-navigation/native';
+import { NavigationContainer, useFocusEffect } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
 const STORAGE_KEY = '@ajudeagora:donations';
 
@@ -167,7 +168,7 @@ function CreateScreen({ navigation }) {
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         <ScrollView contentContainerStyle={styles.formContainer}>
           <Text style={styles.screenTitle}>Cadastrar Doação</Text>
@@ -296,7 +297,7 @@ function EditScreen({ route, navigation }) {
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         <ScrollView contentContainerStyle={styles.formContainer}>
           <Text style={styles.screenTitle}>Editar Doação</Text>
@@ -571,30 +572,4 @@ const styles = StyleSheet.create({
     backgroundColor: '#dc3545',
   },
   mainButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  statusToggle: {
-    borderRadius: 10,
-    paddingVertical: 14,
-    paddingHorizontal: 12,
-    marginTop: 4,
-  },
-  statusActiveBlock: {
-    backgroundColor: '#d4edda',
-  },
-  statusDoneBlock: {
-    backgroundColor: '#d1ecf1',
-  },
-  statusToggleText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#333',
-  },
-  detailInfo: {
-    marginTop: 12,
-    color: '#666',
-    fontSize: 13,
-  },
-});
+    color: '#fff
